@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   }, []);
 
   const getVenues = async () => {
-    let result = await fetch('http://localhost:5000/api/venues', {
+    let result = await fetch('https://back-end-barl.onrender.com/api/venues', {
       headers: { "Content-Type": "application/json" }
     });
     result = await result.json();
@@ -18,18 +18,30 @@ const AdminDashboard = () => {
   };
 
   const deleteVenue = async (id) => {
-    let result = await fetch(`http://localhost:5000/api/venues/delete/${id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    });
-    result = await result.json();
-    if (result) getVenues();
+    try {
+      const response = await fetch(`https://back-end-barl.onrender.com/api/venues/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text(); // get raw message if not JSON
+        console.error('Delete failed:', errorText);
+        return;
+      }
+
+      const result = await response.json();
+      if (result) getVenues();
+    } catch (err) {
+      console.error("Delete error:", err.message);
+    }
   };
+
 
   const blockDate = async () => {
     if (!selectedVenue || !newDate) return alert("Select venue and date");
     try {
-      const res = await fetch(`http://localhost:5000/api/venues/${selectedVenue}/availability`, {
+      const res = await fetch(`https://back-end-barl.onrender.com/api/venues/${selectedVenue}/availability`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date: newDate })
@@ -108,6 +120,8 @@ const AdminDashboard = () => {
       ) : (
         <p>No venues found</p>
       )}
+      <br /><br />
+      <button><a href='/'>Logout</a></button>
     </div>
   );
 };

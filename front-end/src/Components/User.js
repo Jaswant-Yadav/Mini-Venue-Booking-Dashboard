@@ -8,7 +8,7 @@ const User = () => {
     const [user, setUser] = useState('');
 
     const fetchVenues = async () => {
-        const res = await axios.get('http://localhost:5000/api/venues');
+        const res = await axios.get('https://back-end-barl.onrender.com/api/venues');
         setVenues(res.data);
         setBookedVenues([]); // reset on every fetch
     };
@@ -20,7 +20,7 @@ const User = () => {
     const bookVenue = async (venueId) => {
         if (!selectedDate || !user) return alert("Date and User required");
         try {
-            await axios.post(`http://localhost:5000/api/venues/${venueId}/book`, {
+            await axios.post(`https://back-end-barl.onrender.com/api/venues/${venueId}/book`, {
                 date: selectedDate,
                 user,
             });

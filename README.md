@@ -84,3 +84,8 @@ password :- admin123
 username :- owner
 password :- owner123
 
+
+🌐 Demo URL
+
+🔗 Frontend: https://front-end-seven-gilt.vercel.app/
+🔗 Backend API: https://back-end-barl.onrender.com
